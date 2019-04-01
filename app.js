@@ -1,11 +1,15 @@
-const http = require('http')
-const express = require('express')
+import http from 'http'
+import express from 'express'
+
+import mogo from './models/mogo'
 
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send('Collections:A')
+  res.send('Collections:Anime')
   res.end()
 })
 
-http.createServer(app).listen(8888, () => console.log(`listening on port:8888`))
+http.createServer(app)
+  .listen(8888, () => console.log(`listening on port:8888`))
+  .on('error', e => console.log(e.message))
