@@ -1,8 +1,6 @@
 import http from 'http'
 import express from 'express'
 
-import mogo from './models/mogo'
-
 const app = express()
 
 app.get('/', (req, res) => {
