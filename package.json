@@ -1,0 +1,25 @@
+{
+  "name": "collection-server",
+  "version": "1.0.0",
+  "description": "Collections:A server side",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/everbrez/Collections-A-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/everbrez/Collections-A-Server/issues"
+  },
+  "homepage": "https://github.com/everbrez/Collections-A-Server#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
