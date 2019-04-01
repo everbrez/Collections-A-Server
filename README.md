@@ -13,3 +13,12 @@ start the develop server
 ```bash
 yarn start
 ```
+
+# TODOS
+
+- [ ] database design
+- [ ] route design
+- [ ] core functions
+- [ ] theme system
+- [ ] statistics system
+- [ ] recommend system (based on AI)
