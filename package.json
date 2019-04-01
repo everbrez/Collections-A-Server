@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/everbrez/Collections-A-Server#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongoose": "^5.4.20"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
