@@ -1,7 +1,7 @@
 {
-  "name": "collection-server",
-  "version": "1.0.0",
-  "description": "Collections:A server side",
+  "name": "collections-server",
+  "version": "0.0.1",
+  "description": "Collections:A server",
   "private": true,
   "scripts": {
     "start": "nodemon --exec yarn babel-node -- app.js",
