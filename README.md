@@ -14,9 +14,15 @@ start the develop server
 yarn start
 ```
 
+run eslint
+
+```bash
+yarn lint
+```
+
 # TODOS
 
-- [ ] database design
+- [x] database design
 - [ ] route design
 - [ ] core functions
 - [ ] theme system
