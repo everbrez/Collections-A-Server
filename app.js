@@ -1,6 +1,10 @@
 import http from 'http'
 import express from 'express'
 
+import config from './config'
+
+const { server: { port } } = config
+
 const app = express()
 
 app.get('/', (req, res) => {
@@ -9,5 +13,5 @@ app.get('/', (req, res) => {
 })
 
 http.createServer(app)
-  .listen(8888, () => console.log('listening on port:8888'))
+  .listen(port, () => console.log(`app is listening on port:${port}`))
   .on('error', e => console.log(e.message))

@@ -4,7 +4,7 @@
   "description": "Collections:A server side",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec npm run babel-node -- app.js",
+    "start": "nodemon --exec yarn babel-node -- app.js",
     "babel-node": "babel-node",
     "lint": "eslint --fix --o lint/eslint.html --format html --color app.js models/** routes/**"
   },
@@ -26,7 +26,6 @@
     "@babel/core": "^7.4.0",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
-    "@babel/preset-stage-0": "^7.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
