@@ -4,6 +4,7 @@ const { Schema } = mongoose
 
 const adminSchema = new Schema({
   user_id: Number,
+  admin_pwd: String,
   admin_level: Number,
   // todo: add permission
 })
