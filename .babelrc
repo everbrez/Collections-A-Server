@@ -8,5 +8,16 @@
         }
       }
     ]
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./"],
+      "alias": {
+        "models": "./models",
+        "logs": "./logs",
+        "routes": "./routes",
+        "config": "./config",
+      }
+    }]
   ]
 }

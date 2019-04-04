@@ -14,9 +14,10 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    semi: [0],
-    "no-console": [0],
-    "no-plusplus": [0],
-    "import/no-unresolved": [1]
+    semi: "off",
+    "no-console": "off",
+    "no-plusplus": "off",
+    "import/no-unresolved": "off",
+    quotes: ["warn", "single"]
   },
 };
