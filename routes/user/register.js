@@ -1,12 +1,13 @@
 import express from 'express'
-import User from 'models/user'
+
+import Counter from 'models/counter'
 
 const router = express.Router()
 
-let number = 666
-router.get('/register', (req, res) => {
-  User.create({ user_id: number++ })
-  res.end('success')
+router.get('/register', async (req, res) => {
+  const a = await Counter.getNextValue('test')
+  console.log(a)
+  res.end(`${a}`)
 })
 
 export default router
