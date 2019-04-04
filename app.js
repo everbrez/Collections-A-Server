@@ -1,6 +1,7 @@
 import http from 'http'
 import express from 'express'
 
+import './models/database'
 import config from './config'
 
 const { server: { port } } = config
