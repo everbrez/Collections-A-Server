@@ -1,10 +1,10 @@
 import http from 'http'
 import express from 'express'
 
-import './models/database'
-import config from './config'
+import 'models/database'
+import config from 'config'
 
-import register from './routes'
+import register from 'routes'
 
 const { server: { port } } = config
 

@@ -1,4 +1,4 @@
-import { toPromise } from "utils";
+import { toPromise } from 'utils';
 
 function getByUserId(userId) {
   toPromise((cb) => {
