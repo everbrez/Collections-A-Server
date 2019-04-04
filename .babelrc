@@ -1,15 +1,6 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "node": true
-        }
-      }
-    ]
-  ],
   "plugins": [
+    ["@babel/plugin-transform-modules-commonjs"],
     ["module-resolver", {
       "root": ["./"],
       "alias": {
@@ -17,6 +8,7 @@
         "logs": "./logs",
         "routes": "./routes",
         "config": "./config",
+        "utils": "./utils",
       }
     }]
   ]
