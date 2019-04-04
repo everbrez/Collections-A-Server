@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import config from 'config'
 
 const { database } = config
+mongoose.set('useFindAndModify', false);
 
 // mongoose connection options
 const options = {
@@ -10,7 +11,6 @@ const options = {
 }
 
 mongoose.connect(database.uri, options)
-  .then(() => console.log('initial connected'))
   .catch(err => console.log(`an error occurs on a database connection: ${err.message}`))
 
 const db = mongoose.connection
