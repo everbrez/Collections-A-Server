@@ -1,4 +1,4 @@
-import { toPromise } from 'util'
+import { toPromise } from 'utils'
 
 /**
  * return the next sequence value,
@@ -11,7 +11,9 @@ function getNextValue(id) {
   return toPromise((cb) => {
     this.findOneAndUpdate(
       { id },
-      { $inc: { value: 1 } },
+      {
+        $inc: { value: 1 },
+      },
       {
         new: true,
         upsert: true,
@@ -19,7 +21,7 @@ function getNextValue(id) {
       /* eslint-disable function-paren-newline */
       cb)
     /* eslint-enable function-paren-newline */
-  })
+  }).then(data => data.value)
 }
 
 export default getNextValue

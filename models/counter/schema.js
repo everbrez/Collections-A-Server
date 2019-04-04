@@ -18,6 +18,7 @@ const couterSchema = new Schema({
   },
 })
 
+// add statics methods
 couterSchema.statics.getNextValue = getNextValue
 
 export default couterSchema

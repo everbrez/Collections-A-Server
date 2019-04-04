@@ -1,9 +1,13 @@
 import mongoose from 'mongoose'
+import add from './add'
 
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  user_id: Number,
+  user_id: {
+    type: Number,
+    required: true,
+  },
   user_name: String,
   user_pwd: String,
   vip: Number,
@@ -27,5 +31,7 @@ const userSchema = new Schema({
   // todo: add timeline
   // todo: add history
 })
+
+userSchema.statics.add = add
 
 export default userSchema

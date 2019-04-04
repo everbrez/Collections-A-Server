@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import config from 'config'
+import init from './init'
 
 const { database } = config
 mongoose.set('useFindAndModify', false);
@@ -18,7 +19,10 @@ const db = mongoose.connection
 // handle event
 db.on('connecting', () => console.log('database is connecting...'))
 
-db.on('connected', () => console.log('database is connected'))
+db.on('connected', () => {
+  console.log('database is connected')
+  init()
+})
 
 db.on('close', () => console.log('database is closed'))
 
