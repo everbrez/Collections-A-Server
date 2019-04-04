@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import add from './add'
+import getUserById from './get'
 
 const { Schema } = mongoose
 
@@ -32,6 +33,8 @@ const userSchema = new Schema({
   // todo: add history
 })
 
+// bind funtions
 userSchema.statics.add = add
+userSchema.statics.getUserById = getUserById
 
 export default userSchema

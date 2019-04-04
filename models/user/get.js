@@ -1,11 +1,12 @@
 import { toPromise } from 'utils';
 
-function getByUserId(userId) {
-  toPromise((cb) => {
+function getUserById(userId) {
+  return toPromise((cb) => {
+    console.log(userId)
     this.find({
       user_id: userId,
-    }, cb)
+    }).exec(cb)
   })
 }
 
-export default getByUserId
+export default getUserById
