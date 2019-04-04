@@ -1,12 +1,12 @@
 import express from 'express'
 
-import Counter from 'models/counter'
+import User from 'models/user'
 
 const router = express.Router()
 
 router.get('/register', async (req, res) => {
-  const a = await Counter.getNextValue('test')
-  console.log(a)
+  const { name } = req.query
+  const a = await User.add({ user_name: name }).catch(err => res.end(err.message))
   res.end(`${a}`)
 })
 

@@ -20,7 +20,8 @@
   "homepage": "https://github.com/everbrez/Collections-A-Server#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "mongoose": "^5.4.20"
+    "mongoose": "^5.4.20",
+    "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
