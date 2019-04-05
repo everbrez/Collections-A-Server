@@ -9,13 +9,34 @@ const userSchema = new Schema({
     type: Number,
     required: true,
   },
-  user_name: String,
-  user_pwd: String,
-  vip: Number,
-  level: Number,
-  exp: Number,
-  coins: Number,
-  avatar: String,
+  user_name: {
+    type: String,
+    required: true,
+  },
+  user_pwd: {
+    type: String,
+    required: true,
+  },
+  vip: {
+    type: Number,
+    default: 0,
+  },
+  level: {
+    type: Number,
+    default: 0,
+  },
+  exp: {
+    type: Number,
+    default: 0,
+  },
+  coins: {
+    type: Number,
+    default: 0,
+  },
+  avatar: {
+    type: String,
+    default: '',
+  },
   information: {
     mail: String,
     phone: String,

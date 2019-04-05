@@ -10,4 +10,13 @@ function toPromise(handle) {
   return promise
 }
 
-export default toPromise
+function queryPromise(query) {
+  return toPromise((callback) => {
+    query.exec(callback)
+  })
+}
+
+export {
+  toPromise,
+  queryPromise,
+}

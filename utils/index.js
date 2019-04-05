@@ -1,5 +1,6 @@
-import toPromise from './promise'
+import { queryPromise, toPromise } from './promise'
 
 export {
+  queryPromise,
   toPromise,
 }
