@@ -18,6 +18,7 @@ module.exports = {
     "no-console": "off",
     "no-plusplus": "off",
     "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
     quotes: ["warn", "single"]
   },
 };

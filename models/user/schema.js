@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
-import add from './add'
-import getUserById from './get'
+import { bindMethod } from 'utils'
+import addUser from './add'
+import { getUserById, getUserByMail, getUserByName } from './get'
 
 const { Schema } = mongoose
 
@@ -37,10 +38,11 @@ const userSchema = new Schema({
     type: String,
     default: '',
   },
-  information: {
-    mail: String,
-    phone: String,
+  mail: {
+    type: String,
+    required: true,
   },
+  phone: String,
   social_media: {
     github: String,
     bilibili: String,
@@ -54,8 +56,12 @@ const userSchema = new Schema({
   // todo: add history
 })
 
-// bind funtions
-userSchema.statics.add = add
-userSchema.statics.getUserById = getUserById
+// bind methods
+const bindStatics = bindMethod(userSchema.statics)
+
+bindStatics(addUser)
+bindStatics(getUserById)
+bindStatics(getUserByMail)
+bindStatics(getUserByName)
 
 export default userSchema
