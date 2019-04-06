@@ -1,8 +1,8 @@
 import R from 'ramda'
 import { queryPromise } from 'utils'
 
-function update(model, condition, value, ...others) {
-  return queryPromise(model.findOneAndUpdate(condition, value, ...others))
+function update(model, condition, value, options) {
+  return queryPromise(model.findOneAndUpdate(condition, value, options))
 }
 
 // eslint-disable-next-line no-func-assign
