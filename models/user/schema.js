@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import { bindMethod } from 'utils'
 import addUser from './add'
 import { getUserById, getUserByMail, getUserByName } from './get'
+import { updateUserById } from './update'
+import { deleteUserById } from './delete'
 
 const { Schema } = mongoose
 
@@ -63,5 +65,7 @@ bindStatics(addUser)
 bindStatics(getUserById)
 bindStatics(getUserByMail)
 bindStatics(getUserByName)
+bindStatics(updateUserById)
+bindStatics(deleteUserById)
 
 export default userSchema

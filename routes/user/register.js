@@ -33,4 +33,18 @@ router.get('/register/get', async (req, res) => {
   res.end(`${result}`)
 })
 
+router.get('/register/update', async (req, res) => {
+  const { id, name } = req.query
+  const result = await User.updateUserById(id, { user_name: name })
+  res.end(String(result))
+})
+
+router.get('/register/delete', async (req, res) => {
+  const { id } = req.query
+  const result = await User.deleteUserById(id)
+  console.log(result)
+  res.json(result)
+  res.end()
+})
+
 export default router
