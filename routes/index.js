@@ -1,3 +1,5 @@
-import register from './user/register'
+import user from './user/user'
 
-export default register
+export {
+  user,
+}
