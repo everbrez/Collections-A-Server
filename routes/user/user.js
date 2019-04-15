@@ -3,7 +3,7 @@ import express from 'express'
 const router = express.Router()
 
 router.get('/:userName', (req, res) => {
-  const { userName } = req.param
+  const { userName } = req.params
   res.end(userName)
 })
 
