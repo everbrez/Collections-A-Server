@@ -5,10 +5,14 @@
       "root": ["./"],
       "alias": {
         "models": "./models",
+        "model": "./models",
         "logs": "./logs",
+        "log": "./logs",
         "routes": "./routes",
+        "route": "./routes",
         "config": "./config",
         "utils": "./utils",
+        "util": "./utils",
       }
     }]
   ]
