@@ -4,13 +4,13 @@ import express from 'express'
 import 'models/database'
 import config from 'config'
 
-import { user } from 'routes'
+import router from 'routes'
 
 const { server: { port } } = config
 
 const app = express()
 
-app.use(user)
+app.use(router)
 
 app.get('/', (req, res) => {
   res.send('Collections:Anime')
