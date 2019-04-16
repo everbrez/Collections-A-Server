@@ -1,14 +1,7 @@
-import R from 'ramda'
-import { queryPromise } from 'utils'
-
-function deleteOne(model, condition) {
-  return queryPromise(model.deleteOne(condition))
-}
-
-const deleteUser = R.curry(deleteOne)
+import { deleteOne } from 'model/common'
 
 function deleteUserById(id) {
-  return deleteUser(this)({ user_id: id })
+  return deleteOne(this)({ user_id: id })
 }
 
 export {

@@ -1,22 +1,15 @@
-import R from 'ramda'
-import { queryPromise } from 'utils'
-
-function get(model, condition) {
-  return queryPromise(model.find(condition))
-}
-
-const getUser = R.curry(get)
+import { get } from 'model/common'
 
 function getUserById(userId) {
-  return getUser(this)({ user_id: userId })
+  return get(this)({ user_id: userId })
 }
 
 function getUserByName(userName) {
-  return getUser(this)({ user_name: userName })
+  return get(this)({ user_name: userName })
 }
 
 function getUserByMail(mail) {
-  return getUser(this)({ mail })
+  return get(this)({ mail })
 }
 
 export {
