@@ -8,14 +8,18 @@ router.post('/', async (req, res) => {
   const { body } = req
   const { userName, password, mail } = body
 
-  const result = await User.addUser({
-    user_name: userName,
-    user_pwd: password,
-    mail,
-  }).catch(err => ({ code: 500, message: err.message }))
-
-  res.json(result)
-  res.end()
+  let result = {}
+  try {
+    result = await User.addUser({
+      user_name: userName,
+      user_pwd: password,
+      mail,
+    })
+    res.json(result)
+    res.end()
+  } catch (err) {
+    res.end(err.message)
+  }
 })
 
 export default router
