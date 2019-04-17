@@ -13,7 +13,7 @@ const config = {
     port: 8888,
   },
   user: {
-    defaultUserId: 12560,
+    defaultUserId: 1000,
     counter: 'user',
   },
 }

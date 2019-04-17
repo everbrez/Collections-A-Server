@@ -1,21 +1,19 @@
 import mongoose from 'mongoose'
-import addUser from './add'
-import { getUserById, getUserByMail, getUserByName } from './get'
-import { updateUserById } from './update'
-import { deleteUserById } from './delete'
+import config from 'config'
+import Counter from 'models/counter'
 
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  user_id: {
+  id: {
     type: Number,
     required: true,
   },
-  user_name: {
+  userName: {
     type: String,
     required: true,
   },
-  user_pwd: {
+  password: {
     type: String,
     required: true,
   },
@@ -39,7 +37,7 @@ const userSchema = new Schema({
     type: String,
     default: '',
   },
-  mail: {
+  email: {
     type: String,
     required: true,
   },
@@ -57,14 +55,32 @@ const userSchema = new Schema({
   // todo: add history
 })
 
-// bind methods
+// model methods
 userSchema.statics = {
-  addUser,
-  getUserById,
-  getUserByMail,
-  getUserByName,
-  updateUserById,
-  deleteUserById,
+  async add(user) {
+    const id = await Counter.getNextValue(config.user.counter || 'user')
+    return this.create({ ...user, id })
+  },
+
+  getUserByName(userName) {
+    return this.findOne({ userName }).exec()
+  },
+
+  getUserById(id) {
+    return this.findOne({ id }).exec()
+  },
+
+  getUserByEmail(email) {
+    return this.findOne({ email }).exec()
+  },
+
+  updateUserNameByName(userName, newUserName) {
+    return this.findOneAndUpdate({ userName }, { userName: newUserName }, {
+      new: true,
+      upsert: false,
+    }).exec()
+  },
+
 }
 
 const User = mongoose.model('User', userSchema)

@@ -6,14 +6,14 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
   const { body } = req
-  const { userName, password, mail } = body
+  const { userName, password, email } = body
 
   let result = {}
   try {
-    result = await User.addUser({
-      user_name: userName,
-      user_pwd: password,
-      mail,
+    result = await User.add({
+      userName,
+      password,
+      email,
     })
     res.json(result)
     res.end()

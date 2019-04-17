@@ -4,7 +4,7 @@ import express from 'express'
 import 'models/database'
 import config from 'config'
 
-import router from 'routes'
+import router from 'router'
 
 const { server: { port } } = config
 
