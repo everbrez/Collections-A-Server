@@ -1,10 +1,31 @@
-import schema from './schema'
-import Model from './model'
+import mongoose from 'mongoose'
 
-export default Model
-export {
-  Model,
-  Model as Counter,
-  schema,
-  schema as counterSchema,
+const { Schema } = mongoose
+
+const couterSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
+    match: /^[\w_]+$/g,
+  },
+  value: {
+    type: Number,
+    default: 0,
+  },
+})
+
+// add statics methods
+couterSchema.statics = {
+  getNextValue(id) {
+    return this.findOneAndUpdate({ id }, { $inc: { value: 1 } }, {
+      new: true,
+      upsert: true,
+    }).then(data => data.value)
+  },
 }
+
+const Counter = mongoose.model('Counter', couterSchema)
+
+export default Counter
