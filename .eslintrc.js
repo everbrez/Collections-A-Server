@@ -19,6 +19,7 @@ module.exports = {
     "no-plusplus": "off",
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
-    quotes: ["warn", "single"]
+    quotes: ["warn", "single"],
+    "func-names": "off"
   },
 };

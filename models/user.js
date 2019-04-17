@@ -55,6 +55,9 @@ const userSchema = new Schema({
   // todo: add history
 })
 
+// validate
+userSchema.path('userName').validate(userName => User.findOne({ userName }).exec().then(data => !data), 'userName `{VALUE}` has been registered')
+
 // model methods
 userSchema.statics = {
   async add(user) {
@@ -80,7 +83,6 @@ userSchema.statics = {
       upsert: false,
     }).exec()
   },
-
 }
 
 const User = mongoose.model('User', userSchema)
