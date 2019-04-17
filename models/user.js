@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import config from 'config'
-import Counter from 'models/counter'
+import Counter from './counter'
 
 const { Schema } = mongoose
 
