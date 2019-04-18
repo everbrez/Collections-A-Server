@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import config from 'config'
 import Counter from './counter'
+import * as validator from './validator'
 
 const { Schema } = mongoose
 
@@ -56,7 +57,8 @@ const userSchema = new Schema({
 })
 
 // validate
-userSchema.path('userName').validate(userName => User.findOne({ userName }).exec().then(data => !data), 'userName `{VALUE}` has been registered')
+userSchema.path('userName').validate(value => validator.unique(User, 'userName', value))
+userSchema.path('email').validate(value => validator.email(value))
 
 // model methods
 userSchema.statics = {

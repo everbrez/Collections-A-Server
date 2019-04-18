@@ -20,6 +20,7 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     quotes: ["warn", "single"],
-    "func-names": "off"
+    "func-names": "off",
+    "comma-dangle": "off"
   },
 };
