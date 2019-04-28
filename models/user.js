@@ -56,6 +56,7 @@ const userSchema = new Schema({
   // todo: add history
 })
 
+
 // validate
 userSchema.path('userName').validate(value => validator.unique(User, 'userName', value))
 userSchema.path('email').validate(value => validator.email(value))
