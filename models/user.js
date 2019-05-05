@@ -59,7 +59,7 @@ const userSchema = new Schema({
 
 // validate
 userSchema.path('userName').validate(value => validator.unique(User, 'userName', value))
-userSchema.path('email').validate(value => validator.email(value))
+userSchema.path('email').validate(validator.email)
 
 // model methods
 userSchema.statics = {
