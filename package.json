@@ -22,7 +22,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

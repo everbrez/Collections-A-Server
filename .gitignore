@@ -7,3 +7,5 @@ package.lock.json
 
 lint/
 coverage/
+
+dump.rdb
