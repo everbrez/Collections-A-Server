@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
+import crypto from 'crypto'
 import config from 'config'
 import Counter from './counter'
-import * as validator from './validator'
 
 const { Schema } = mongoose
 
+// user schema
 const userSchema = new Schema({
   id: {
     type: Number,
@@ -14,9 +15,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  password: {
+  hash_password: {
     type: String,
     required: true,
+  },
+  salt: {
+    type: String,
+    default: ''
   },
   vip: {
     type: Number,
@@ -56,10 +61,43 @@ const userSchema = new Schema({
   // todo: add history
 })
 
+userSchema.virtual('password')
+  .set(function (password) {
+    this.salt = this.makeSalt()
+    this.hash_password = this.encryptPassword(password)
+  })
 
 // validate
-userSchema.path('userName').validate(value => validator.unique(User, 'userName', value))
-userSchema.path('email').validate(validator.email)
+userSchema.path('userName')
+  .validate((name = '') => name.length, 'userName can\'t be blank!')
+  .validate((name) => {
+    const User = mongoose.model('User')
+    return User.find({ userName: name }).exec()
+      .then(users => (users.length ? Promise.reject(new Error('username exited')) : true))
+  }, 'userName `{VALUE}` has already exited!')
+
+// methods
+userSchema.methods = {
+  encryptPassword(password) {
+    if (!password) return
+    try {
+      return crypto
+        .createHmac('sha512', this.salt)
+        .update(password)
+        .digest('hex')
+    } catch (err) {
+      return ''
+    }
+  },
+
+  makeSalt() {
+    return `${Math.round(new Date().valueOf() * Math.random())}`
+  },
+
+  authenticate(plainText) {
+    return this.encryptPassword(plainText) === this.hash_password
+  }
+}
 
 // model methods
 userSchema.statics = {

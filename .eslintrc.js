@@ -21,6 +21,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     quotes: ["warn", "single"],
     "func-names": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "consistent-return": "off"
   },
 };
