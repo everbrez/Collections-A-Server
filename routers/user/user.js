@@ -2,6 +2,7 @@ import express from 'express'
 import User from 'models/user'
 
 const router = express.Router()
+router.use(express.urlencoded())
 
 router.get('/:userName', async (req, res) => {
   const { userName } = req.params
@@ -13,6 +14,19 @@ router.get('/:userName', async (req, res) => {
   }
   res.json({ user })
   res.end()
+})
+
+router.post('/login', async (req, res) => {
+  const { userName, password } = req.body
+  User.findOne({ userName }).exec()
+    .then((user) => {
+      if (!user) res.end('user didn\'t exitd')
+      if (user.authenticate(password)) {
+        res.end('success')
+      } else {
+        res.end('fail')
+      }
+    })
 })
 
 router.get('/:userName/update', async (req, res) => {
