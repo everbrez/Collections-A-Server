@@ -21,10 +21,12 @@
   "dependencies": {
     "bluebird": "^3.5.5",
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
     "ramda": "^0.26.1",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
