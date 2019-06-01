@@ -1,7 +1,7 @@
 import http from 'http'
 import express from 'express'
 
-import 'models/database'
+import './db'
 import config from 'config'
 
 import router from 'router'

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import config from 'config'
-import init from './init'
+import Counter from 'models/counter'
 
 const { database } = config
 mongoose.set('useFindAndModify', false);
@@ -33,5 +33,29 @@ db.on('error', err => console.log(`an error occurs on a database connection: ${e
 db.on('reconnectFailed', () => console.log('reconnected is failed'))
 
 console.log('database is connecting...')
+
+// init database
+function init() {
+  // check the counter for user
+  Counter.findOne({ id: config.user.counter }, (err, userCounter) => {
+    if (err) console.log(err.message)
+    else {
+      // if null, then create the counter
+      // eslint-disable-next-line no-lonely-if
+      if (!userCounter) {
+        Counter.create({
+          id: config.user.counter,
+          value: config.user.defaultUserId - 1,
+        },
+        (error) => {
+          if (error) console.log(err.message)
+          else console.log('userCounter check successfully!')
+        })
+      } else {
+        console.log('userCounter check successfully!')
+      }
+    }
+  })
+}
 
 export default db
