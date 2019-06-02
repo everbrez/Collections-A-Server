@@ -13,30 +13,45 @@ function checkCookie(req, res, next) {
 
   if (sessionId) {
     client.getAsync(sessionId).then((value) => {
-      if (value) res.end('success login with cookie')
+      if (value) res.json({ message: 'success login with cookie'})
       else next()
     })
   } else {
     next()
   }
 }
-router.post('/login', checkCookie, async (req, res) => {
-  const { userName, password, email } = req.body
 
-  const user = await User.findOne({ $or: [{ userName }, { email }] }).exec().catch(() => { res.end('fail: unknown reason') })
+// set cors
+function setCors(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+  res.header('Access-Control-Allow-Headers', 'content-type')
+  res.header('Access-Control-Allow-Credentials', 'true')
 
-  if (!user) res.end('user didn\'t exitd')
+  next()
+}
+
+router.options('/login', setCors, (req, res) => {
+  res.end()
+})
+
+router.post('/login', setCors, checkCookie, async (req, res) => {
+  const { userName, password, email, remember } = req.body
+  console.log(remember, 'remember')
+
+  const user = await User.findOne({ $or: [{ userName }, { email }] }).exec().catch(() => { res.json({ error: 'fail: unknown reason' }) })
+
+  if (!user) res.json({ error: 'user didn\'t exitd'})
   if (user.authenticate(password)) {
     // generate session_id
     const sessionId = uuid.v4()
     // redis
     client.setAsync(sessionId, 'true', 'PX', config.expireTime).catch(err => console.log(err.message))
 
-    res.cookie('sessionId', sessionId, { maxAge: config.expireTime })
+    res.cookie('sessionId', sessionId, { maxAge: remember ? config.expireTime : 2000 })
     res.json({ ...user._doc, sessionId })
     res.end()
   } else {
-    res.end('fail: password not authenticated')
+    res.json({ error: 'fail: password not authenticated' })
   }
 })
 
