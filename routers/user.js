@@ -34,9 +34,8 @@ router.options('/login', setCors, (req, res) => {
   res.end()
 })
 
-router.post('/login', setCors, checkCookie, async (req, res) => {
+router.post('/login', setCors, async (req, res) => {
   const { userName, password, email, remember } = req.body
-  console.log(remember, 'remember')
 
   const user = await User.findOne({ $or: [{ userName }, { email }] }).exec().catch(() => { res.json({ error: 'fail: unknown reason' }) })
 
@@ -55,12 +54,12 @@ router.post('/login', setCors, checkCookie, async (req, res) => {
   }
 })
 
-router.get('/logout', async (req, res) => {
+router.get('/logout', setCors, async (req, res) => {
   console.log('logout--')
   const { sessionId } = req.cookies
   await client.delAsync(String(sessionId))
   res.clearCookie('sessionId')
-  res.end('logout success')
+  res.json({ message: 'logout success' })
 })
 
 
