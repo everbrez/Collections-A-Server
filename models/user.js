@@ -7,11 +7,11 @@ const { Schema } = mongoose
 
 // user schema
 const userSchema = new Schema({
-  id: {
+  uid: {
     type: Number,
     required: true,
   },
-  userName: {
+  uname: {
     type: String,
     required: true,
   },
@@ -68,13 +68,13 @@ userSchema.virtual('password')
   })
 
 // validate
-userSchema.path('userName')
-  .validate((name = '') => name.length, 'userName can\'t be blank!')
+userSchema.path('uname')
+  .validate((name = '') => name.length, 'user name can\'t be blank!')
   .validate((name) => {
     const User = mongoose.model('User')
-    return User.find({ userName: name }).exec()
-      .then(users => (users.length ? Promise.reject(new Error('username exited')) : true))
-  }, 'userName `{VALUE}` has already exited!')
+    return User.find({ uname: name }).exec()
+      .then(users => (users.length ? Promise.reject(new Error('user name exited')) : true))
+  }, 'user name `{VALUE}` has already exited!')
 
 // methods
 userSchema.methods = {
@@ -99,31 +99,40 @@ userSchema.methods = {
   }
 }
 
+const privateFields = ['_id', 'hash_password', 'salt', '__v']
+
 // model methods
 userSchema.statics = {
+  getUser(user, fields = []) {
+    const { uname = null, email = null } = user
+    return this.findOne({ $or: [{ uname }, { email }] })
+      .lean()
+      .select(fields.join(' '))
+  },
+
+  // get user common info by user name or email
+  getUserInfo(user) {
+    const commonSelectedFields = ['uname', 'email', 'uid', 'avatar', 'level', '-_id']
+    return this.getUser(user, commonSelectedFields)
+  },
+
+  // get all user info by user name or email
+  getUserDetail(user) {
+    return this.getUser(user, privateFields.map(field => `-${field}`))
+  },
+
   async add(user) {
-    const id = await Counter.getNextValue(config.user.counter || 'user')
-    return this.create({ ...user, id })
+    const uid = await Counter.getNextValue(config.user.counter || 'user')
+    return this.create({ ...user, uid })
   },
 
-  getUserByName(userName) {
-    return this.findOne({ userName }).exec()
-  },
-
-  getUserById(id) {
-    return this.findOne({ id }).exec()
-  },
-
-  getUserByEmail(email) {
-    return this.findOne({ email }).exec()
-  },
-
-  updateUserNameByName(userName, newUserName) {
-    return this.findOneAndUpdate({ userName }, { userName: newUserName }, {
+  updateUser(uid, doc) {
+    return this.findOneAndUpdate({ uid }, { $set: doc }, {
       new: true,
-      upsert: false,
-    }).exec()
-  },
+    })
+      .select(privateFields.map(field => `-${field}`))
+      .lean()
+  }
 }
 
 const User = mongoose.model('User', userSchema)
