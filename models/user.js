@@ -102,23 +102,28 @@ userSchema.methods = {
 const privateFields = ['_id', 'hash_password', 'salt', '__v']
 
 // model methods
+
+function or(query) {
+  return Object.keys(query)
+    .filter(key => ['uname', 'uid', 'email'].includes(key))
+    .map(key => ({ [key]: query[key] }))
+}
+
 userSchema.statics = {
   getUser(user, fields = []) {
-    const { uname = null, email = null } = user
-    return this.findOne({ $or: [{ uname }, { email }] })
-      .lean()
+    return this.findOne({ $or: or(user) })
       .select(fields.join(' '))
   },
 
   // get user common info by user name or email
   getUserInfo(user) {
     const commonSelectedFields = ['uname', 'email', 'uid', 'avatar', 'level', '-_id']
-    return this.getUser(user, commonSelectedFields)
+    return this.getUser(user, commonSelectedFields).lean()
   },
 
   // get all user info by user name or email
   getUserDetail(user) {
-    return this.getUser(user, privateFields.map(field => `-${field}`))
+    return this.getUser(user, privateFields.map(field => `-${field}`)).lean()
   },
 
   async add(user) {

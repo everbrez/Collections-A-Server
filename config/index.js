@@ -17,7 +17,8 @@ const config = {
     counter: 'user',
   },
   // 2min => miliseconds
-  expireTime: 2 * 60 * 1000
+  expireTime: 2 * 60 * 1000,
+  defaultExpireTime: 1 * 60 * 1000 // 1 min
 }
 
 export default config

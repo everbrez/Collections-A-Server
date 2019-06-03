@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import config from 'config'
 import Counter from 'models/counter'
+import 'model'
 
 const { database } = config
 mongoose.set('useFindAndModify', false);
