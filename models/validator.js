@@ -17,6 +17,7 @@ class Validator {
   }
 
   setField(field) {
+    // return a new instance
     return Object.create(this, {
       field: {
         value: field,
@@ -28,11 +29,9 @@ class Validator {
 
   unique(field = this.field) {
     // TODO: 创建一个共享变量，防止同时注册时冲突
-    return (value) => {
-      return this.model
-        .findOne({ [field]: value })
-        .then(item => item ? Promise.reject(false) : true)
-    }
+    return value => this.model
+      .findOne({ [field]: value })
+      .then(item => (item ? Promise.reject(new Error('not unique')) : true))
   }
 
   notEmpty() {

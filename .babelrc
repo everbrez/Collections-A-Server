@@ -13,7 +13,9 @@
         "config": "./config",
         "utils": "./utils",
         "util": "./utils",
-        "db": "./db"
+        "db": "./db",
+        "middlewares": "./middlewares",
+        "middleware": "./middlewares"
       }
     }]
   ]

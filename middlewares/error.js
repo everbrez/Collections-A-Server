@@ -17,7 +17,7 @@ export function getErrorMessage(error = {}, type) {
   return message
 }
 
-function ErrorHandleMiddleware(req, res, next) {
+function errorHandleMiddleware(req, res, next) {
   // extends res method in order to adapt errors from mongoose
   res.error = function (data = {}, type) {
     const response = this
@@ -33,4 +33,5 @@ function ErrorHandleMiddleware(req, res, next) {
   next()
 }
 
-export { ErrorHandleMiddleware }
+export { errorHandleMiddleware }
+export default errorHandleMiddleware

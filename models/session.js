@@ -19,3 +19,7 @@ const shareMemory = {
 }
 
 export default session
+export {
+  shareMemory,
+  session
+}

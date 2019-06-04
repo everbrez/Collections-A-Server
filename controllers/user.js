@@ -3,7 +3,6 @@ import uuid from 'uuid'
 
 import config from 'config'
 import session from 'models/session'
-import { getErrorMessage } from 'util/error'
 
 const User = mongoose.model('User')
 
@@ -32,7 +31,7 @@ export async function getUserDetail(req, res, next) {
   if (!req.uid) res.status(500).json({ error: 'required a user id' })
 
   const user = await User.getUserDetail({ uid: req.uid })
-    .catch(error => res.status(500).json({ error: getErrorMessage(error) }))
+    .catch(res.status(500).error())
 
   if (!user) {
     res.status(404).json({ error: 'user not found' })
@@ -41,6 +40,11 @@ export async function getUserDetail(req, res, next) {
 
   req.user = user
   next()
+}
+
+export function sendUserInfo(req, res, next) {
+  const { user } = req
+  res.status(200).json({ data: user })
 }
 
 export function updateUserDetail(...field) {

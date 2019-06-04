@@ -1,17 +1,23 @@
 import express from 'express'
 
-import { ErrorHandleMiddleware } from 'utils/error'
+import {
+  errorHandleMiddleware,
+  convertParamsToBody,
+  bodyDataFilter
+} from 'middlewares'
 import {
   userLogin,
   userLogout,
   register,
   checkLogin,
   getUserDetail,
-  updateUserDetail
+  updateUserDetail,
+  getUserInfo,
+  sendUserInfo
 } from '../controllers/user'
 
 const router = express.Router()
-router.use(ErrorHandleMiddleware)
+router.use(errorHandleMiddleware)
 
 // set cors headers
 function cors(req, res, next) {
@@ -35,7 +41,15 @@ router.get('/logout', userLogout)
 router.post('/register', register)
 
 // user info
-router.get('/api/users', checkLogin, getUserDetail, (req, res) => res.json(req.user))
+router.get('/api/users/detail/:uid?', checkLogin, convertParamsToBody, getUserDetail, sendUserInfo)
+
+router.get(
+  '/api/users/:uname',
+  convertParamsToBody,
+  bodyDataFilter(({ uname }) => ({ uname })),
+  getUserInfo,
+  sendUserInfo
+)
 
 // update user info
 router.put('/api/users', checkLogin, updateUserDetail('email', 'uname'))
