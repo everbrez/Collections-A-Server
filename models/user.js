@@ -73,8 +73,8 @@ userSchema.path('uname')
   .validate((name) => {
     const User = mongoose.model('User')
     return User.find({ uname: name }).exec()
-      .then(users => (users.length ? Promise.reject(new Error('user name exited')) : true))
-  }, 'user name `{VALUE}` has already exited!')
+      .then(users => (users.length ? Promise.reject(new Error('user name existed')) : true))
+  }, 'user name `{VALUE}` has already existed!')
 
 // methods
 userSchema.methods = {
