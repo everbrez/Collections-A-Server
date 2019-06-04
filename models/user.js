@@ -17,7 +17,8 @@ const userSchema = new Schema({
   },
   uname: {
     type: String,
-    default: uuid.v4
+    default: uuid.v4,
+    trim: true
   },
   hash_password: {
     type: String,
@@ -49,7 +50,8 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    default: '',
+    trim: true,
   },
   phone: String,
   social_media: {
@@ -77,6 +79,12 @@ const unameValidator = userValidator.setField('uname')
 userSchema.path('uname')
   .validate(unameValidator.notEmpty(), 'user name can\'t be blank!')
   .validate(unameValidator.unique(), 'user name `{VALUE}` has already existed!')
+
+const emailValidator = userValidator.setField('email')
+userSchema.path('email')
+  .validate(emailValidator.notEmpty(), 'email is empty')
+  .validate(userValidator.unique('email'), 'email `{VALUE}` has already existed!')
+  .validate(emailValidator.email(), 'email format error')
 
 // methods
 userSchema.methods = {

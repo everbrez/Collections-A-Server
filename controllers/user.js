@@ -9,14 +9,14 @@ const User = mongoose.model('User')
 // user info
 
 export async function getUserInfo(req, res, next) {
-  const { uname, email } = req.body
+  const { uname, email, uid } = req.body
 
-  if (!(uname || email)) {
+  if (!(uname || email || uid)) {
     res.status(400).json({ error: 'a user name or an email is required' })
   }
 
-  const user = await User.getUserInfo({ uname, email })
-    .catch(res.status(500).error({ code: 500 }))
+  const user = await User.getUserInfo({ uname, email, uid })
+    .catch(res.status(400).error({ code: 400 }))
 
   if (!user) {
     res.status(404).json({ error: 'user not found' })
@@ -162,5 +162,5 @@ export async function register(req, res) {
     return
   }
 
-  res.status(500).json({ code: 500, error: 'unkown error occur'})
+  res.status(400).json({ code: 400, error: 'unkown error'})
 }

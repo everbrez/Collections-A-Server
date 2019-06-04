@@ -42,6 +42,27 @@ class Validator {
       return value
     }
   }
+
+  is(type) {
+    return value => type(value)
+  }
+
+  number() {
+    return (value) => {
+      if (typeof value !== 'number' || typeof value !== 'string') return false
+      if (typeof value === 'string' && value.trim() === '') return false
+      if (isNaN(Number(value))) return false
+      return true
+    }
+  }
+
+  email() {
+    return value => /^\w[\w._\-$]+@\w+\.[\w.]*\w$/.test(value)
+  }
+
+  require() {
+    return this.notEmpty()
+  }
 }
 
 export default Validator

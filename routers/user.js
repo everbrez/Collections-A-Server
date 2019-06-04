@@ -44,9 +44,9 @@ router.post('/register', register)
 router.get('/api/users/detail/:uid?', checkLogin, convertParamsToBody, getUserDetail, sendUserInfo)
 
 router.get(
-  '/api/users/:uname',
+  '/api/users/:uid',
   convertParamsToBody,
-  bodyDataFilter(({ uname }) => ({ uname })),
+  bodyDataFilter(({ uid }) => ({ uid })),
   getUserInfo,
   sendUserInfo
 )
