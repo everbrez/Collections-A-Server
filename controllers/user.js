@@ -3,7 +3,6 @@ import uuid from 'uuid'
 
 import config from 'config'
 import session from 'models/session'
-import { Session } from 'inspector';
 
 const User = mongoose.model('User')
 
@@ -147,13 +146,16 @@ export async function register(req, res) {
 
   if (user) {
     const sid = uuid.v4()
+    console.log(user, 'user')
 
     // set redis
-    Session.set(sid, user.uid, config.defaultExpireTime)
+    session.set(sid, user.uid, config.defaultExpireTime)
 
     // set cookies
-    res.cookies('sid', sid)
+    res.cookie('sid', sid)
     res.status(201).json({ code: 201, message: 'created'})
+
+    return
   }
 
   res.status(500).json({ code: 500, error: 'unkown error occur'})
