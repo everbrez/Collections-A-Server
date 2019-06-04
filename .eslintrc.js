@@ -23,6 +23,7 @@ module.exports = {
     "func-names": "off",
     "comma-dangle": "off",
     "consistent-return": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-restricted-globals": "off"
   },
 };

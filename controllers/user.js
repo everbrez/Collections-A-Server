@@ -42,7 +42,7 @@ export async function getUserDetail(req, res, next) {
   next()
 }
 
-export function sendUserInfo(req, res, next) {
+export function sendUserInfo(req, res) {
   const { user } = req
   res.status(200).json({ data: user })
 }
@@ -67,7 +67,9 @@ export function updateUserDetail(...field) {
 }
 
 export async function userLogin(req, res) {
-  const { uname, email, password, remember } = req.body
+  const {
+    uname, email, password, remember
+  } = req.body
 
   const user = await User.getUser({ uname, email })
     .catch(error => res.status(500).json({ error: error.message }))
@@ -87,7 +89,7 @@ export async function userLogin(req, res) {
     session.set(sid, user.uid, remember ? config.expireTime : config.defaultExpireTime)
 
     // set cookies
-    res.cookie('sid', sid, { maxAge: remember ? config.expireTime : config.defaultExpireTime})
+    res.cookie('sid', sid, { maxAge: remember ? config.expireTime : config.defaultExpireTime })
     res.status(200).json({ code: 200, message: 'login success' })
 
     return
@@ -157,10 +159,50 @@ export async function register(req, res) {
 
     // set cookies
     res.cookie('sid', sid)
-    res.status(201).json({ code: 201, message: 'created'})
+    res.status(201).json({ code: 201, message: 'created' })
 
     return
   }
 
-  res.status(400).json({ code: 400, error: 'unkown error'})
+  res.status(400).json({ code: 400, error: 'unkown error' })
+}
+
+export async function getUser(req, res, next) {
+  const user = await User.getUser({ uid: req.uid })
+    .catch(res.status(500).error())
+
+  if (!user) {
+    res.status(404).json({ error: 'user not found' })
+    return
+  }
+
+  req.user = user
+  next()
+}
+
+export async function updatePassword(req, res) {
+  const { newPassword } = req.body
+  const { user } = req
+  await user.updatePassword(newPassword)
+    .catch(res.status(500).error())
+
+  // logout
+  const { sid } = req.cookies
+  if (sid) {
+    await session.del(String(sid))
+  }
+  res.clearCookie('sid')
+  res.status(200).json({ message: 'update success' })
+}
+
+export async function validateByOldPassword(req, res, next) {
+  const { password } = req.body
+  const { user } = req
+
+  if (user.authenticate(password)) {
+    next()
+    return
+  }
+
+  res.status(403).json({ error: 'password incorect' })
 }

@@ -13,7 +13,10 @@ import {
   getUserDetail,
   updateUserDetail,
   getUserInfo,
-  sendUserInfo
+  sendUserInfo,
+  getUser,
+  updatePassword,
+  validateByOldPassword,
 } from '../controllers/user'
 
 const router = express.Router()
@@ -53,6 +56,21 @@ router.get(
 
 // update user info
 router.put('/api/users', checkLogin, updateUserDetail('email', 'uname'))
+router.put(
+  '/api/users/password',
+  (req, res, next) => {
+    const { uid } = req.body
+    if (!uid) {
+      res.status(400).json({ error: 'uid required' })
+      return
+    }
+    req.uid = uid
+    next()
+  },
+  getUser,
+  validateByOldPassword,
+  updatePassword
+)
 
 // user pages
 

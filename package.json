@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec yarn babel-node -- app.js",
     "babel-node": "babel-node",
-    "lint": "eslint --fix --o lint/eslint.html --format html --color app.js models/** routes/**"
+    "lint": "eslint --fix --o lint/eslint.html --format html --color app.js models/** routers/** middlewares/** utils/** controllers/**"
   },
   "repository": {
     "type": "git",

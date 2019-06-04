@@ -1,13 +1,15 @@
 export function getErrorMessage(error = {}, type) {
   let message = 'unkown error'
   // set default errors obj
+  // eslint-disable-next-line no-param-reassign
   error.errors = error.errors || {}
   if (type) {
     message = error.errors[type] && error.errors[type].message
   } else {
     // eslint-disable-next-line no-restricted-syntax
-    for (let key in error.errors) {
+    for (const key in error.errors) {
       if (error.errors[key] instanceof Object) {
+        // eslint-disable-next-line prefer-destructuring
         message = error.errors[key].message
         break
       }

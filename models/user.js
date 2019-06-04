@@ -74,22 +74,23 @@ userSchema.virtual('password')
   })
 
 // validate
-const unameValidator = userValidator.setField('uname')
+const unameValidator = userValidator.setField('uname', 'user name')
 
 userSchema.path('uname')
-  .validate(unameValidator.notEmpty(), 'user name can\'t be blank!')
-  .validate(unameValidator.unique(), 'user name `{VALUE}` has already existed!')
+  .validate(...unameValidator.notEmpty())
+  .validate(...unameValidator.unique())
 
 const emailValidator = userValidator.setField('email')
 userSchema.path('email')
-  .validate(emailValidator.notEmpty(), 'email is empty')
-  .validate(userValidator.unique('email'), 'email `{VALUE}` has already existed!')
-  .validate(emailValidator.email(), 'email format error')
+  .validate(...emailValidator.notEmpty())
+  .validate(...userValidator.unique('email'))
+  .validate(...emailValidator.email())
 
 // methods
 userSchema.methods = {
   encryptPassword(password) {
-    if (!password) return
+    if (typeof password !== 'string') return
+    if (!password.trim()) return
     try {
       return crypto
         .createHmac('sha512', this.salt)
@@ -106,6 +107,14 @@ userSchema.methods = {
 
   authenticate(plainText) {
     return this.encryptPassword(plainText) === this.hash_password
+  },
+
+  updatePassword(newPassword) {
+    this.password = newPassword
+    return this.update({
+      hash_password: this.hash_password,
+      salt: this.salt
+    })
   }
 }
 
@@ -148,7 +157,16 @@ userSchema.statics = {
       new: true,
     }
 
-    return this.findOneAndUpdate({ uid }, { $set: doc }, options)
+    // filter protected fields
+    // can not update these fields with this method
+    const {
+      password,
+      hash_password: hashPassword,
+      uid: userId,
+      ...others
+    } = doc
+
+    return this.findOneAndUpdate({ uid }, { $set: others }, options)
       .select(privateFields.map(field => `-${field}`))
       .lean()
   }
