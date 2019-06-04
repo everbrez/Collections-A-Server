@@ -1,7 +1,7 @@
 import { client } from 'db'
 import config from 'config'
 
-export default {
+const session = {
   set(sid, uid, expireTime = config.expireTime) {
     return client.setAsync(sid, uid, 'PX', expireTime)
   },
@@ -14,3 +14,8 @@ export default {
     return client.delAsync(key)
   }
 }
+
+const shareMemory = {
+}
+
+export default session

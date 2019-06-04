@@ -1,4 +1,6 @@
 import express from 'express'
+
+import { ErrorHandleMiddleware } from 'utils/error'
 import {
   userLogin,
   userLogout,
@@ -9,6 +11,7 @@ import {
 } from '../controllers/user'
 
 const router = express.Router()
+router.use(ErrorHandleMiddleware)
 
 // set cors headers
 function cors(req, res, next) {

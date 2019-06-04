@@ -3,6 +3,7 @@ import uuid from 'uuid'
 
 import config from 'config'
 import session from 'models/session'
+import { getErrorMessage } from 'util/error'
 
 const User = mongoose.model('User')
 
@@ -16,7 +17,7 @@ export async function getUserInfo(req, res, next) {
   }
 
   const user = await User.getUserInfo({ uname, email })
-    .catch(error => res.status(500).json({ error: error.message }))
+    .catch(res.status(500).error({ code: 500 }))
 
   if (!user) {
     res.status(404).json({ error: 'user not found' })
@@ -31,7 +32,7 @@ export async function getUserDetail(req, res, next) {
   if (!req.uid) res.status(500).json({ error: 'required a user id' })
 
   const user = await User.getUserDetail({ uid: req.uid })
-    .catch(error => res.status(500).json({ error: error.message }))
+    .catch(error => res.status(500).json({ error: getErrorMessage(error) }))
 
   if (!user) {
     res.status(404).json({ error: 'user not found' })
@@ -51,13 +52,12 @@ export function updateUserDetail(...field) {
     if (!type || !field.includes(type)) res.status(403).json({ error: 'type error' })
 
     const newValue = req.body[type]
-    if (!newValue) res.status(404).json({ error: 'new value type error' })
 
     const user = await User.updateUser(req.uid, {
       [type]: newValue
     })
-      .catch(err => res.status(500).json({ error: err.message }))
- 
+      .catch(res.status(403).error())
+
     res.status(200).json(user)
   }
 }
@@ -142,7 +142,7 @@ export async function register(req, res) {
   }
 
   const user = await User.add(userData)
-    .catch(error => res.status(403).json({ error: error.message }))
+    .catch(res.status(403).error())
 
   if (user) {
     const sid = uuid.v4()

@@ -22,6 +22,7 @@ module.exports = {
     quotes: ["warn", "single"],
     "func-names": "off",
     "comma-dangle": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "class-methods-use-this": "off"
   },
 };

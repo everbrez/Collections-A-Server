@@ -1,7 +1,11 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
+import uuid from 'uuid'
 import config from 'config'
 import Counter from './counter'
+import Validator from './validator'
+
+const userValidator = new Validator('User')
 
 const { Schema } = mongoose
 
@@ -13,11 +17,11 @@ const userSchema = new Schema({
   },
   uname: {
     type: String,
-    required: true,
+    default: uuid.v4
   },
   hash_password: {
     type: String,
-    required: true,
+    default: uuid.v4
   },
   salt: {
     type: String,
@@ -68,13 +72,11 @@ userSchema.virtual('password')
   })
 
 // validate
+const unameValidator = userValidator.setField('uname')
+
 userSchema.path('uname')
-  .validate((name = '') => name.length, 'user name can\'t be blank!')
-  .validate((name) => {
-    const User = mongoose.model('User')
-    return User.find({ uname: name }).exec()
-      .then(users => (users.length ? Promise.reject(new Error('user name existed')) : true))
-  }, 'user name `{VALUE}` has already existed!')
+  .validate(unameValidator.notEmpty(), 'user name can\'t be blank!')
+  .validate(unameValidator.unique(), 'user name `{VALUE}` has already existed!')
 
 // methods
 userSchema.methods = {
@@ -132,9 +134,13 @@ userSchema.statics = {
   },
 
   updateUser(uid, doc) {
-    return this.findOneAndUpdate({ uid }, { $set: doc }, {
+    const options = {
+      // run validator
+      runValidators: true,
       new: true,
-    })
+    }
+
+    return this.findOneAndUpdate({ uid }, { $set: doc }, options)
       .select(privateFields.map(field => `-${field}`))
       .lean()
   }

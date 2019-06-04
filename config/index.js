@@ -16,9 +16,8 @@ const config = {
     defaultUserId: 1000,
     counter: 'user',
   },
-  // 2min => miliseconds
-  expireTime: 2 * 60 * 1000,
-  defaultExpireTime: 1 * 60 * 1000 // 1 min
+  expireTime: 20 * 60 * 1000, // 20min
+  defaultExpireTime: 1 * 60 * 1000 // 1min
 }
 
 export default config
