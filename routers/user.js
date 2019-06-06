@@ -33,8 +33,6 @@ function cors(req, res, next) {
 router.use(cors)
 
 // login
-router.options('/login', (req, res) => res.end())
-
 router.post('/login', userLogin)
 
 router.get('/logout', userLogout)

@@ -1,8 +1,10 @@
 export function getErrorMessage(error = {}, type) {
   let message = 'unkown error'
-  // set default errors obj
-  // eslint-disable-next-line no-param-reassign
-  error.errors = error.errors || {}
+  if (!error.errors) {
+    // common error
+    return error.message
+  }
+
   if (type) {
     message = error.errors[type] && error.errors[type].message
   } else {
