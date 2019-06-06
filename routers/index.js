@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 
 import user from './user'
 import upload from './upload'
+// import mailer from '../controllers/mailer'
 
 const router = express.Router()
 
@@ -16,6 +17,7 @@ router.use(bodyParser.json())
 router.use(cookieParser())
 router.use(express.urlencoded())
 
+// router.post('/mail', mailer())
 router.use(user)
 router.use(upload)
 
