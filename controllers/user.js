@@ -66,6 +66,24 @@ export function updateUserDetail(...field) {
   }
 }
 
+function isEmpty(value) {
+  return value === '' || value === null || value === undefined
+}
+export function updateUserFields(...fields) {
+  return async function (req, res) {
+    const data = {}
+    // get data from body
+    fields.forEach((field) => {
+      data[field] = isEmpty(req.body[field]) ? undefined : req.body[field]
+    })
+
+    const user = await User.updateUser(req.uid, data)
+      .catch(res.status(402).error())
+
+    res.status(200).json(user)
+  }
+}
+
 export async function userLogin(req, res) {
   const {
     uname, email, password, remember
@@ -205,4 +223,27 @@ export async function validateByOldPassword(req, res, next) {
   }
 
   res.status(403).json({ error: 'password incorect' })
+}
+
+export function checkFieldUnique(...fields) {
+  // one of the fields will be validate
+  return async function (req, res) {
+    let field
+    let value
+
+    for(const key of field) {
+      if (!isEmpty(req.body[key])) {
+        value = req.body[key]
+        field = key
+        break
+      }
+    }
+
+    if (!field) res.status(400).json({ error: 'no params' })
+
+    const user = await User.unique(field, value)
+
+    if (!user) res.status(200).json({ data: true })
+    else res.status(200).json({ data: false })
+  }
 }

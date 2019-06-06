@@ -11,12 +11,13 @@ import {
   register,
   checkLogin,
   getUserDetail,
-  updateUserDetail,
   getUserInfo,
   sendUserInfo,
   getUser,
   updatePassword,
   validateByOldPassword,
+  updateUserFields,
+  checkFieldUnique
 } from '../controllers/user'
 
 const router = express.Router()
@@ -53,7 +54,7 @@ router.get(
 )
 
 // update user info
-router.put('/api/users', checkLogin, updateUserDetail('email', 'uname'))
+router.put('/api/users', checkLogin, updateUserFields('uname', 'avatar', 'email', 'phone'))
 router.put(
   '/api/users/password',
   (req, res, next) => {
@@ -69,6 +70,9 @@ router.put(
   validateByOldPassword,
   updatePassword
 )
+
+// check unique
+router.post('api/users/unique', checkFieldUnique)
 
 // user pages
 

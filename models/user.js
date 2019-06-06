@@ -40,7 +40,7 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
-  coins: {
+  points: {
     type: Number,
     default: 0,
   },
@@ -155,6 +155,7 @@ userSchema.statics = {
       // run validator
       runValidators: true,
       new: true,
+      omitUndefined: true
     }
 
     // filter protected fields
@@ -168,6 +169,12 @@ userSchema.statics = {
 
     return this.findOneAndUpdate({ uid }, { $set: others }, options)
       .select(privateFields.map(field => `-${field}`))
+      .lean()
+  },
+
+  unique(field, value) {
+    return this.findOne({ [field]: value })
+      .select(`${field}`)
       .lean()
   }
 }
