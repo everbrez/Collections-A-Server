@@ -9,3 +9,5 @@ lint/
 coverage/
 
 dump.rdb
+
+public/uploads/*
